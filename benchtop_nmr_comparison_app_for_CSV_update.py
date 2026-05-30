@@ -651,16 +651,16 @@ def get_selected_model(label: str, models: list[NMRModel]) -> NMRModel:
 st.title("卓上NMR 測定時間・設置性 比較ツール")
 st.caption("^1H感度から、同等S/Nを得るための測定時間目安を比較します。")
 
-default_data_path = Path("data") / "Spinsolve_Comparison_Table.xlsx"
+uploaded_file = st.file_uploader(
+    "製品情報Excelをアップロードしてください",
+    type=["xlsx"],
+)
 
-if not default_data_path.exists():
-    st.error(
-        "Default data file not found. Please place the Excel file at "
-        "data/Spinsolve_Comparison_Table.xlsx."
-    )
+if uploaded_file is None:
+    st.info("Excelをアップロードすると、Spinsolve各モデルと競合例をプルダウンから選択できます。")
     st.stop()
 
-models = load_models_from_excel(default_data_path)
+models = load_models_from_excel(uploaded_file)
 
 if not models:
     st.error("Excelから製品情報を読み取れませんでした。新形式または旧形式のExcel構造をご確認ください。")
@@ -681,8 +681,8 @@ st.sidebar.markdown("### 比較時の重要事項")
 
 st.sidebar.info(
 
-    "本ツールは、主に ^1H感度と^1Hスペクトル例に基づき、測定時間と分解能の違いを理解するための参考ツールです。\n\n"
-    "NMR装置の性能比較では、MHz値やカタログ上の最高感度値だけでなく、核種、測定条件、モデル構成、分解能条件を揃えて比較することが重要です。\n\n"
+    "本ツールは、主に ^1H感度と^1Hスペクトル例に基づき、測定時間と分解能の違いを理解するための参考ツールです。"
+    "NMR装置の性能比較では、MHz値やカタログ上の最高感度値だけでなく、核種、測定条件、モデル構成、分解能条件を揃えて比較することが重要です。"
     "特に多核測定や2D測定では、^1H単独の結果だけでは判断できない場合があります。"
 
 )
@@ -692,9 +692,8 @@ st.sidebar.markdown(
     """
 
 **1. モデル選択について**  
-Magritek Spinsolveは、60 / 80 / 90 / 100 MHzの構成があります。  
-用途、核種、分解能、設置性を踏まえてモデルを選択してください。
-お気軽にご相談ください。
+Magritek Spinsolveは、60 / 80 / 90 / 100 MHzに加え、CLASSIC / PLUS / ULTRAなど複数の構成があります。  
+用途、核種、分解能、設置性を踏まえて選択することが重要です。
 
 **2. 感度比較について**  
 感度仕様は、測定条件・核種・モデル構成を揃えて比較する必要があります。  
@@ -705,25 +704,12 @@ Spinsolveの感度値は、PFGを含む実用的な測定条件を前提とし�
 
 **3. 分解能について**  
 NMR性能はMHz値だけで決まるものではありません。  
-ピーク分離性、線幅、溶媒ピーク近傍の確認などには、分解能性能も重要です。
+ピーク分離性、裾引き、線幅、溶媒ピーク近傍の確認などには、分解能性能も重要です。
 
 **4. 測定時間について**  
 同等S/Nを得るための測定時間は、感度比の2乗で変化します。  
 例：140:1 と 110:1 の比較では、110:1側は約1.6倍の測定時間が必要になります。
 
-**5. モデル名称について**
-
-XX MHz  
-1H・19F測定に対応する基本構成です。
-
-XX MHz X-nuclei  
-1H・19Fに加えて、2ndチャンネルに任意の観測核を"1種"追加できます。
-
-XX MHz Multi-X  
-1H・19Fに加えて、2ndチャンネルに"2〜3種"の観測核を実装できます。
-
-XX MHz Multi-Xn  
-1H・19Fに加えて、2ndチャンネルに"4種"以上の観測核を実装できます。
 """
 
 )
@@ -745,8 +731,7 @@ if not model_a.sensitivity_value or not model_b.sensitivity_value:
 
 st.info(
     "注：性能の低いモデルまたは参照モデルをA、性能の高い比較モデルをBとして選択してください。"
-    "機種Bの感度が機種Aよりも低い場合、推定測定時間が増加、短縮率が負になります。"
-    
+    "Bの感度がAよりも低い場合、推定測定時間が増加し、削減率が負になります。"
     "Note: Select the lower-performance or reference model as A, and the higher-performance comparison model as B. "
     "If B has lower sensitivity than A, the estimated measurement time will increase and the reduction rate may become negative."
 )
