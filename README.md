@@ -1,6 +1,7 @@
 # 卓上NMR 測定時間・性能比較アプリ
 
 このStreamlitアプリは、卓上NMR装置の ^1H感度、推定測定時間、分解能、設置面積、体積、重量などを比較するためのツールです。
+<img width="650" height="293" alt="MG Competition2" src="https://github.com/user-attachments/assets/7127f48e-6540-465a-893a-6e60eab1050c" />
 
 ## 主な機能
 
@@ -16,6 +17,7 @@
 - 1日あたりの測定処理数を試算
 
 ## 測定時間計算
+<img width="650" height="314" alt="MG App Top" src="https://github.com/user-attachments/assets/4cef5bd8-8eca-492a-a3bf-74816e3b0fe5" />
 
 推定測定時間は、以下の関係式に基づいて計算されます。
 
