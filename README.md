@@ -1,6 +1,7 @@
 # 卓上NMR 測定時間・性能比較アプリ
 
 このStreamlitアプリは、卓上NMR装置の ^1H感度、推定測定時間、分解能、設置面積、体積、重量 などを比較するためのツールです。
+
 <img width="650" height="293" alt="MG Competition2" src="https://github.com/user-attachments/assets/7127f48e-6540-465a-893a-6e60eab1050c" />
 
 最近の卓上NMRでは、60MHz、80MHz、90MHz、100MHzなど、磁場強度に対応した複数の周波数帯の装置が選択肢となります。
